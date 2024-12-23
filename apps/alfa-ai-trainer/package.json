@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "dev": "ts-node-dev index",
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node .dist/index.js"
+  },
+  "name": "serverless",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "docker-compose": "^1.1.0"
+  }
+}

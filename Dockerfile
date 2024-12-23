@@ -1,18 +1,30 @@
+# Base image
 FROM ubuntu:20.04
 
-RUN apt-get update && apt-get install -y \curl \ git \ nano \ apt-transport-https \ ca-certificates \ software-properties-common
+# Set environment variable to suppress interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
-    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-    > /etc/apt/sources.list.d/docker.list \
-    && apt-get update && apt-get install -y docker-ce-cli
+# Update system and install required packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    nano \
+    apt-transport-https \
+    ca-certificates \
+    software-properties-common && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Add Docker GPG key and repository, then install Docker CLI
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+    > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && apt-get install -y docker-ce-cli
+
+# Set working directory
 WORKDIR /dockerFactory
 
+# Copy all project files to the container
 COPY . .
 
+# Default command
 CMD ["bash"]
-
-
-
-
