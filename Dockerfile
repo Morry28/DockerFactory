@@ -9,9 +9,11 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     nano \
+    sudo \
     apt-transport-https \
     ca-certificates \
-    software-properties-common && \
+    software-properties-common \
+    docker.io && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Add Docker GPG key and repository, then install Docker CLI
@@ -23,8 +25,10 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /
 # Set working directory
 WORKDIR /dockerFactory
 
+COPY welcome.sh .
+
 # Copy all project files to the container
 COPY . .
 
-# Default command
+# Start Docker daemon and then bash
 CMD ["bash"]

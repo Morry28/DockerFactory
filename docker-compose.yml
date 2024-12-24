@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  docker-factory:
+    image: centuryone/docker-factory:latest
+    container_name: docker-factory
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    stdin_open: true
+    tty: true

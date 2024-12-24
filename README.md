@@ -9,6 +9,9 @@ The Docker Factory is an on-demand service designed to streamline the creation o
 - **Seamless Integration**: Designed for compatibility with the ICLabs Cloud Services ecosystem.
 - **Customizable and Scalable**: Allows on-demand provisioning of environments tailored to project needs.
 
+## DOCKERFILE LINK
+- **sha256:7717e94a355dd155ba7b706578252062ec4800f239d6262013378b1f1247096b**
+
 ## Usage
 1. **Deploy the Docker Factory**:
    The service is available as a prebuilt Docker image. Deploy it in any environment that supports Docker.
