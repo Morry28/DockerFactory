@@ -16,19 +16,20 @@ RUN apt-get update && apt-get install -y \
     docker.io && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Add Docker GPG key and repository, then install Docker CLI
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-    > /etc/apt/sources.list.d/docker.list && \
-    apt-get update && apt-get install -y docker-ce-cli
+# Configure Docker daemon
+RUN mkdir -p /etc/docker && echo '{"experimental":true}' > /etc/docker/daemon.json
 
 # Set working directory
 WORKDIR /dockerFactory
 
-COPY welcome.sh .
-
 # Copy all project files to the container
 COPY . .
 
-# Start Docker daemon and then bash
-CMD ["bash"]
+# Ensure welcome.sh is executable
+RUN chmod +x welcome.sh
+
+# Expose Docker daemon socket port
+EXPOSE 2375
+
+# Default command: Start Docker daemon with full permissions and run welcome.sh
+CMD ["sh", "-c", "dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 & sleep 5 && ./welcome.sh && bash"]
